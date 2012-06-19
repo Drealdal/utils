@@ -43,7 +43,7 @@ int cotime_end(cotime_t *time_sec)
     assert( time_sec != NULL);
     assert( time_sec->is_started == 1);
     gettimeofday(&time_sec->end, NULL);
-    time_sec->is_started == 0;
+    time_sec->is_started = 0;
 
     time_sec->time_msec += (time_sec->end.tv_sec - time_sec->begin.tv_sec)*1000000+time_sec->end.tv_usec - time_sec->begin.tv_usec;
     return 0;
