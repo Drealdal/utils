@@ -45,11 +45,12 @@ all: init $(ALL_OBJECTS)
 	$(CC)  $^ -o $@ $(CFLAGS)
 	cp $@ $(BIN_DIR)
 
-.PHONY:all clean dist_clean  init
+.PHONY:all clean dist_clean  init clear
 init:
 	mkdir -p bin
 clean: 
 	rm -rf $(CLEAN_DIR)	
+clear: clean
 	rm -rf $(CLEAN_OBJECT)
 	rm -rf $(PROGRAM_TARGET)
 	rm -rf *~
