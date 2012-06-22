@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 {
     int i;
     idsets_t idset;
-    set_debugmask(ALL_DEBUG);
+    debug_setmask(ALL_DEBUG);
 
     idsets_init(&idset, 0,100,10);
     for( i = 0; i < 100 ; i ++)

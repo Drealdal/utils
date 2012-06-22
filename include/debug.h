@@ -34,11 +34,11 @@ extern int debug_mask;
     }\
 }while(0)
 
-#define set_debugmask(mask) do{ debug_mask = mask;}while(0)
+#define debug_setmask(mask) do{ debug_mask = mask;}while(0)
 
 #else
 #define debug(mask,msg,argc...) 0
-#define set_debugmask(mask) 0
+#define debug_setmask(mask) 0
 #endif
 
 
