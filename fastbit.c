@@ -179,19 +179,30 @@ extern "C" {
 	return cnum + snum;
     }
 
-    int fb_setn1_0(fastbit_t *fb, int n)
+    int fb_setn(fastbit_t *fb, int n, int set)
     {
 	int subsize, cnum = 0;
 
 	if( fb->max_depth == fb->depth )
 	{
 
-	    if( array_n1_0(fb->bits, FB_LEN,
-			n) < 0 )
+	    if( set == 0 )  
 	    {
-		debug(DEBUG_FASTBIT,"set %d for %d error",
-			n, FB_LEN);
-		return RET_FAILURE;
+		if( array_n1_0(fb->bits, FB_LEN,
+			    n) < 0 )
+		{
+		    debug(DEBUG_FASTBIT,"set %d for %d error",
+			    n, FB_LEN);
+		    return RET_FAILURE;
+		}
+	    }else{
+		if( array_n0_1(fb->bits, FB_LEN,
+			    n) < 0 )
+		{
+		    DEBUG(DEBUG_FASTBIT,"set %d for %d error",n,FB_LEN);
+		    return RET_FAILURE;
+		}
+
 	    }
 	    return RET_SUCCESS;
 	}
@@ -234,8 +245,20 @@ extern "C" {
 	    return RET_FAILURE;
 	}
 
-	return array_n1_0(fb->bits, FB_LEN , cnum);
+	if(set == 0)
+	{
+	  return  array_n1_0(fb->bits, FB_LEN , cnum);
+	}
+	return RET_SUCCESS;
 
+    }
+    int fb_setn1_0(fastbit_t *fb, int n)
+    {
+	return fb_setn(fb,n,0);
+    }
+    int fb_setn0_1(fastbit_t *fb, int n)
+    {
+	return fb_setn(fb,n,1);
     }
 
 #ifdef __cplusplus

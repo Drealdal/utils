@@ -73,6 +73,8 @@ int fb_set_first0_1( fastbit_t *fb );
  * @return 0 for success , -1 for failure 
  */
 int fb_setn1_0(fastbit_t *fb, int n);
+int fb_setn0_1(fastbit_t *fb, int n);
+int max_height();
 
 
 #ifdef __cplusplus
