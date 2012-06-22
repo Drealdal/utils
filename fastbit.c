@@ -199,7 +199,7 @@ extern "C" {
 		if( array_n0_1(fb->bits, FB_LEN,
 			    n) < 0 )
 		{
-		    DEBUG(DEBUG_FASTBIT,"set %d for %d error",n,FB_LEN);
+		    debug(DEBUG_FASTBIT,"set %d for %d error",n,FB_LEN);
 		    return RET_FAILURE;
 		}
 
