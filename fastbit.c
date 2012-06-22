@@ -20,11 +20,22 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+    int max_height()
+    {
+	int ret = 1,i = 0;
+	while(FB_LEN *ret > ret )
+	{
+	    ret *= FB_LEN;
+	    i++;
+	}
+	return i;
+    }
+
     int fb_subsize(int maxdepth, int depth)
     {
 	int ret = 1;
 
-	while(maxdepth > depth )
+	while( maxdepth > depth )
 	{
 	    ret *= FB_LEN;
 	    maxdepth --;
@@ -85,6 +96,11 @@ extern "C" {
 	    debug(DEBUG_FASTBIT,"null fb error");
 	    return RET_FAILURE; 
 	}
+	if( maxdepth > max_height() )
+	{
+	    debug(DEBUG_FASTBIT, "Too large bitmap exceed integer");
+	    return RET_FAILURE;
+	}
 
 	memset(fb, 0, sizeof(fastbit_t));
 	fb->max_depth = maxdepth;
@@ -100,7 +116,8 @@ extern "C" {
 
 	if( set_1 == 1 )
 	{
-	    memset(fb, 0xffffffff, FB_LEN/8);
+	    memset(fb->bits, 0xffffffff, FB_LEN/8);
+	   // for( i = 0; i < FB_LEN/8; i++ )
 	}	
 	return RET_SUCCESS;
     }
@@ -181,7 +198,7 @@ extern "C" {
 
 	subsize = fb_subsize(fb->max_depth, fb->depth);
 
-	while( n > subsize )
+	while( n >= subsize )
 	{
 	    n-= subsize;
 	    cnum ++;
@@ -204,6 +221,7 @@ extern "C" {
 	    if( ( fb_init(fb->sbit[cnum],fb->max_depth,
 			    fb->depth + 1,1)) < 0 )
 	    {
+		debug(DEBUG_FASTBIT,"init failure");
 		free(fb->sbit[cnum]);
 		fb->sbit[cnum] = NULL;
 		return RET_FAILURE;

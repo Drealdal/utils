@@ -30,6 +30,7 @@
 extern "C" {
 #endif
 #define FB_LEN 32
+#define FB_MAX_DEPTH 6
 /*  the length of each leaf */
 #define DEBUG_FASTBIT 1<<2
 typedef struct fastbit fastbit_t;
