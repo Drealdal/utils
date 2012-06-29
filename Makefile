@@ -18,7 +18,7 @@ CLEAN_OBJECT=$(addsuffix /*.o, $(SOURCE_DIR))
 OBJECT_DIRS=$(OBJECT_DIR) $(addprefix $(OBJECT_DIR)/,$(SOURCE_DIR)) 
 
 DEBUG = -DDEBUG=1
-CFLAGS = $(INCLUDE_FLAGS) -Wall $(DEBUG) -O2 $(LIB_INCLUDE_FLAGS) $(LIB_FLAGS) 
+CFLAGS = $(INCLUDE_FLAGS) -Wall $(DEBUG) -O2 $(LIB_INCLUDE_FLAGS) 
 
 HEADERS = $(shell ls $(INCLUDE_DIR) | grep '\.h$$')
 ls:
@@ -42,10 +42,10 @@ all: init $(ALL_OBJECTS)
 %.o: %.c $(HEADERS)
 	$(CC) -c $(CFLAGS) $^ -fpic -o $@ 
 %bin: %.c $(SOURCE_OBJECTS)
-	$(CC)  $^ -o $@ $(CFLAGS)
+	$(CC)  $^ -o $@ $(CFLAGS) $(LIB_FLAGS) 
 	cp $@ $(BIN_DIR)
 
-.PHONY:all clean dist_clean  init
+.PHONY:all clean clear dist_clean  init
 init:
 	mkdir -p bin
 clean: 
@@ -53,4 +53,5 @@ clean:
 	rm -rf $(CLEAN_OBJECT)
 	rm -rf $(PROGRAM_TARGET)
 	rm -rf *~
+clear: clean
 
