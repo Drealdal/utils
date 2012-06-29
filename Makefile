@@ -3,12 +3,12 @@ CC = g++
 ESM_SOFT=/home/huangxm/zwork/esm-dev/
 INCLUDE_DIR =./include
 SYS_INCLUDE =$(ESM_SOFT)/include/
-SOURCE_DIR = . 
+SOURCE_DIR = . test 
 LIB_DIR= $(ESM_SOFT)/lib/
 BIN_DIR=./bin
 LIB_INCLUDE_FLAGS=$(addprefix -L,$(LIB_DIR)) 
 INCLUDE_FLAGS = $(addprefix -I, $(INCLUDE_DIR) $(SYS_INCLUDE))
-LIB_FLAGS= -lnetcdf  -lpnetcdf  -lhdf5_hl -lhdf5  -lz -lcurl -lm
+LIB_FLAGS= 
 OBJECT_DIR = .object
 SERVER_DIR = server
 
@@ -32,7 +32,7 @@ SOURCE_OBJECTS = $(patsubst %.c, %.o, $(SOURCE_NAMES))
 
 GREPCMDL = grep -l 'int main\s*(.*)' $(SOURCE_FILES)
 PROGRAM_FILES = $(shell $(GREPCMDL))
-PROGRAM_TARGET = $(patsubst %.c, %bin, $(PROGRAM_FILES))
+PROGRAM_TARGET = $(patsubst %.c, %, $(PROGRAM_FILES))
 
 
 ALL_OBJECTS = $(SOURCE_OBJECTS) $(PROGRAM_TARGET) 
@@ -41,13 +41,15 @@ all: init $(ALL_OBJECTS)
 
 %.o: %.c $(HEADERS)
 	$(CC) -c $(CFLAGS) $^ -fpic -o $@ 
-%bin: %.c $(SOURCE_OBJECTS)
-	$(CC)  $^ -o $@ $(CFLAGS) $(LIB_FLAGS) 
+
+%: %.c $(SOURCE_OBJECTS)
+	$(CC)  $^ -o $@ $(CFLAGS)
 	cp $@ $(BIN_DIR)
 
-.PHONY:all clean clear dist_clean  init
+.PHONY:all clean dist_clean  init clear
 init:
 	mkdir -p bin
+clear: clean
 clean: 
 	rm -rf $(CLEAN_DIR)	
 	rm -rf $(CLEAN_OBJECT)
