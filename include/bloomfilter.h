@@ -22,7 +22,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-typedef int (*BLOOM_FILTER_HASH)(void *, int);
+typedef unsigned int (*BLOOM_FILTER_HASH)(unsigned char *, int);
 typedef struct bloom_filter bfilter;
 struct bloom_filter
 {
@@ -34,12 +34,12 @@ struct bloom_filter
     bitmap map;
     BLOOM_FILTER_HASH *hash;
 
-    int ( *set)(bfilter *, void *,int);
-    int ( *check)(bfilter *,void *,int);
+    int ( *set)(bfilter *, unsigned char *,int);
+    int ( *check)(bfilter *,unsigned char *,int);
     int ( *add_func)(bfilter *, BLOOM_FILTER_HASH);
 
 };
-int bfilter_init(bfilter *filter, int size);
+int bfilter_init(bfilter *filter, int size,int fnum);
 
 #ifdef __cplusplus
 }

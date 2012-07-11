@@ -17,8 +17,8 @@
  */
 #include "bloomfilter.h"
 
-static int set(bfilter *, void *, int );
-static int check(bfilter *, void *, int );
+static int set(bfilter *, unsigned char *, int );
+static int check(bfilter *, unsigned char *, int );
 static int add_func(bfilter *,BLOOM_FILTER_HASH);
 
 int bfilter_init(bfilter *filter,
@@ -48,7 +48,7 @@ int bfilter_init(bfilter *filter,
     return 0;
 }
 
-int set(bfilter *filter, void *data, int len )
+static int set(bfilter *filter, unsigned char *data, int len )
 {
     int i = 0;
 
@@ -65,13 +65,14 @@ int set(bfilter *filter, void *data, int len )
     }
     for( i = 0 ; i < filter->cfnum; i++ )
     {
-	filter->map.set(&filter->map, filter->hash[i](data, len)%filter->map.size);
+	int r = filter->hash[i](data,len);
+	filter->map.set(&filter->map, r%filter->map.size);
     }	
 
     return 0;
 }
 
-int check(bfilter *filter, void *data, int len )
+static int check(bfilter *filter, unsigned char *data, int len )
 {
     int i = 0;
 
@@ -88,16 +89,17 @@ int check(bfilter *filter, void *data, int len )
     }
     for( i = 0 ; i < filter->cfnum; i++ )
     {
+	int r = filter->hash[i](data,len);
 	if (
 		!filter->map.get(&filter->map, 
-		    filter->hash[i](data, len)%filter->map.size) )
+		   r%filter->map.size) )
 	{
 	    return 0;
 	}
     }	
     return 1;
 }
-int add_func(bfilter * filter, BLOOM_FILTER_HASH func)
+static int add_func(bfilter * filter, BLOOM_FILTER_HASH func)
 {
     if( filter == NULL )
     {
@@ -110,9 +112,9 @@ int add_func(bfilter * filter, BLOOM_FILTER_HASH func)
 	return -1;
     }
 
-    if( filter->cfnum >= filter->fnum - 1 )
+    if( filter->cfnum >= filter->fnum )
     {
-	debug(DEBUG_UTILS,"too many hash functions");
+	debug(DEBUG_UTILS,"too many hash functions cfnum:%d fnum:%d",filter->cfnum,filter->fnum-1);
 	return -1;
     }
     filter->hash[filter->cfnum++] = func;

@@ -28,6 +28,7 @@ int bitmap_init(bitmap *map, int size)
 	return -1;
     }
     memset(map, 0 , sizeof(bitmap));
+    map->size = size;
 
     map->data =(unsigned char *)
        	malloc(size/8 + (size%8 != 0 ));
@@ -58,6 +59,7 @@ static int set(bitmap *map, int n )
 	debug(DEBUG_UTILS,"Set Larger than map size:%d",n);
 	return -1;
     }
+
     map->data[n/8] |= (1 << (n%8));
     return 0;
 }
@@ -78,6 +80,7 @@ static int get(bitmap *map, int n)
 	debug(DEBUG_UTILS,"Get Larger than map size:%d",n);
 	return -1;
     }
-    return ((map->data[n/8] & ( 1 < (n%8))) != 0);
+    
+    return ( (map->data[n/8] & ( 1 << (n%8))) != 0);
 }
 
