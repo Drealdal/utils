@@ -23,6 +23,7 @@
 extern int debug_mask;
 #define ALL_DEBUG 0xffffffff
 #define NULL_DEBUG 0x00000000
+#define DEBUG_UTILS 0X80000000
 
 #define FFL __FILE__,__func__,__LINE__
 
