@@ -17,3 +17,25 @@
  */
 #include "debug.h"
 int debug_mask = 0;
+FILE *debug_fd = stdout;
+FILE *error_fd = stderr;
+
+void setDebugFD(FILE *fd)
+{
+	if( fd == NULL )
+	{
+		debug(ALL_DEBUG,"NULL FD FOR DEBUG, USING STDOUT");
+		return;
+	}
+	debug_fd = fd;
+}
+
+void setErrorFD(FILE *fd)
+{
+	if( fd == NULL )
+	{
+		debug(ALL_DEBUG,"NULL FD FOR Error, USING STDOUT");
+		return;
+	}
+	error_fd = fd;
+}

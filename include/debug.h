@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 extern int debug_mask;
+extern FILE *debug_fd,*error_fd;
 #define ALL_DEBUG 0xffffffff
 #define NULL_DEBUG 0x00000000
 #define DEBUG_UTILS 0X80000000
@@ -31,11 +32,14 @@ extern int debug_mask;
 #define debug(mask,msg,argc...) do{\
     if((mask&debug_mask)!=0)\
     {\
-    	fprintf(stdout,"%s %s %d: "msg"\n",FFL,##argc);\
+    	fprintf(debug_fd,"%s %s %d: "msg"\n",FFL,##argc);\
     }\
 }while(0)
 
 #define debug_setmask(mask) do{ debug_mask = mask;}while(0)
+
+void setDebugFD(FILE *fd);
+void setErrorFD(FILE *fd);
 
 #else
 #define debug(mask,msg,argc...) 0
@@ -44,10 +48,10 @@ extern int debug_mask;
 
 
 
-#define warning(msg,argc...) fprintf(stdout,"WARNING:%s %s %d: "msg"\n",FFL,##argc)
-#define error(msg,argc...) fprintf(stderr,"ERROR:%s %s %d: "msg"\n",FFL,##argc)
+#define warning(msg,argc...) fprintf(debug_fd,"WARNING:%s %s %d: "msg"\n",FFL,##argc)
+#define error(msg,argc...) fprintf(error_fd,"ERROR:%s %s %d: "msg"\n",FFL,##argc)
 #define err_exit(msg,argc...) do{\
-fprintf(stderr,"Fatal ERROR:%s %s %d:"msg"\n",FFL,##argc);\
+fprintf(error_fd,"Fatal ERROR:%s %s %d:"msg"\n",FFL,##argc);\
 exit(-1);\
 }while(0);
 
