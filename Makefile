@@ -8,7 +8,7 @@ LIB_DIR= $(ESM_SOFT)/lib/
 BIN_DIR=./bin
 LIB_INCLUDE_FLAGS=$(addprefix -L,$(LIB_DIR)) 
 INCLUDE_FLAGS = $(addprefix -I, $(INCLUDE_DIR) $(SYS_INCLUDE))
-LIB_FLAGS= 
+LIB_FLAGS= -lpthread 
 OBJECT_DIR = .object
 SERVER_DIR = server
 
@@ -18,7 +18,7 @@ CLEAN_OBJECT=$(addsuffix /*.o, $(SOURCE_DIR))
 OBJECT_DIRS=$(OBJECT_DIR) $(addprefix $(OBJECT_DIR)/,$(SOURCE_DIR)) 
 
 DEBUG = -DDEBUG=1
-CFLAGS = $(INCLUDE_FLAGS) -Wall $(DEBUG) -O2 $(LIB_INCLUDE_FLAGS) 
+CFLAGS = $(INCLUDE_FLAGS) -Wall $(DEBUG) -O2 $(LIB_INCLUDE_FLAGS) $(LIB_FLAGS)
 
 HEADERS = $(shell ls $(INCLUDE_DIR) | grep '\.h$$')
 

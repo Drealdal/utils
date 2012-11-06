@@ -18,20 +18,20 @@
 #include "idset.h"
 #include "debug.h"
 #define DEBUG_IDSET 1
-static int set_print(FILE *fd, int *set, int n)
+int set_print(FILE *fd, int *set, int n)
 {
 #ifdef DEBUG
-    int i = 0;
-    for( i = 0; i < n ; i ++) 
-    {
-	fprintf(fd, "\t%d",set[i]);
-    }
-    fprintf(fd, "\n");
+	int i = 0;
+	for( i = 0; i < n ; i ++) 
+	{
+		fprintf(fd, "\t%d",set[i]);
+	}
+	fprintf(fd, "\n");
 #endif
-    return 0;
+	return 0;
 }
 
-static int bit_print(FILE *fd, unsigned char *bits, int n )
+int bit_print(FILE *fd, unsigned char *bits, int n )
 {
     int i ;
     for( i = 0 ; i < n ; i++)
