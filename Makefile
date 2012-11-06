@@ -21,8 +21,6 @@ DEBUG = -DDEBUG=1
 CFLAGS = $(INCLUDE_FLAGS) -Wall $(DEBUG) -O2 $(LIB_INCLUDE_FLAGS) 
 
 HEADERS = $(shell ls $(INCLUDE_DIR) | grep '\.h$$')
-ls:
-	echo $(HEADERS)
 
 SOURCE_FILES = $(addsuffix /*.c ,$(SOURCE_DIR))
 

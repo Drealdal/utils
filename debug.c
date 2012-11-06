@@ -17,8 +17,8 @@
  */
 #include "debug.h"
 int debug_mask = 0;
-FILE *debug_fd = stdout;
-FILE *error_fd = stderr;
+FILE *debug_fd = NULL;
+FILE *error_fd = NULL;
 
 void setDebugFD(FILE *fd)
 {

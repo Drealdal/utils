@@ -32,7 +32,7 @@ extern FILE *debug_fd,*error_fd;
 #define debug(mask,msg,argc...) do{\
     if((mask&debug_mask)!=0)\
     {\
-    	fprintf(debug_fd,"%s %s %d: "msg"\n",FFL,##argc);\
+    	fprintf(debug_fd == NULL ? stdout:debug_fd,"%s %s %d: "msg"\n",FFL,##argc);\
     }\
 }while(0)
 
@@ -48,10 +48,14 @@ void setErrorFD(FILE *fd);
 
 
 
-#define warning(msg,argc...) fprintf(debug_fd,"WARNING:%s %s %d: "msg"\n",FFL,##argc)
-#define error(msg,argc...) fprintf(error_fd,"ERROR:%s %s %d: "msg"\n",FFL,##argc)
+#define warning(msg,argc...) do{\
+	fprintf(debug_fd == NULL ? stdout:debug_fd ,"WARNING:%s %s %d: "msg"\n",FFL,##argc);\
+}while(0)
+#define error(msg,argc...) do{\
+	fprintf(error_fd == NULL ? stderr:error_fd ,"ERROR:%s %s %d: "msg"\n",FFL,##argc);\
+}while(0)
 #define err_exit(msg,argc...) do{\
-fprintf(error_fd,"Fatal ERROR:%s %s %d:"msg"\n",FFL,##argc);\
+fprintf(error_fd == NULL ? stderr:error_fd,"Fatal ERROR:%s %s %d:"msg"\n",FFL,##argc);\
 exit(-1);\
 }while(0);
 
