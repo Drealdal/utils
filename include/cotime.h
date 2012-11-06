@@ -26,9 +26,10 @@
 typedef struct time_section
 {
     char *name;
-    long long time_msec;// total time spend on this section
+    long long time_usec;// total time spend on this section
     struct timeval begin,end;
     int is_started;
+	int count;// the number of calling end for this time_section
 }cotime_t;
 int cotime_init(cotime_t *time_sec,char *name);
 int cotime_begin(cotime_t *time_sec);
