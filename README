@@ -1,3 +1,4 @@
 tools 
 Most tools here is writen by myself.
 md5: from mooseFS
+diffcp: file cp tools
